@@ -13,3 +13,11 @@ class Book(models.Model):
     cover = models.ImageField()
     about = models.TextField()
 
+    class Meta:
+        verbose_name = "Book"
+        verbose_name_plural = "Books"
+        ordering = ["-title"]
+
+    def __str__(self):
+        return f"{self.title}" 
+
