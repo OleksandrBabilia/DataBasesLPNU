@@ -3,7 +3,7 @@ from django.db import models
 from books.models import Book
 
 class Depository(models.Model):
-    name = models.CharField(max_length=55)
+    name = models.CharField(max_length=55, db_index=True)
     location = models.CharField(max_length=125)
     capacity = models.PositiveIntegerField()
     current_capacity = models.PositiveIntegerField()

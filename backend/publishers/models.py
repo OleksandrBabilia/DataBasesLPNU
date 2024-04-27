@@ -2,9 +2,9 @@ from django.db import models
 
 
 class Publisher(models.Model):
-    name = models.CharField(max_length=75)
+    name = models.CharField(max_length=75, db_index=True, unique=True)
     address = models.CharField(max_length=255)
-    phone = models.CharField(15)
+    phone = models.CharField(max_length=15)
 
     class Meta:
         verbose_name = "Publisher"
