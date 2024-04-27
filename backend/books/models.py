@@ -12,6 +12,8 @@ class Book(models.Model):
     publisher= models.ForeignKey(Publisher, on_delete=models.DO_NOTHING)
     cover = models.ImageField()
     about = models.TextField()
+    page_count = models.PositiveSmallIntegerField()
+    rating = models.FloatField()
 
     class Meta:
         verbose_name = "Book"
