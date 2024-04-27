@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'drf_yasg',
     'books',
     'authors',
-    'publishers'
+    'publishers',
+    'depositories'
 ]
 
 X_FRAME_OPTIONS = "SAMEORIGIN"              # allows you to use modals insated of popups

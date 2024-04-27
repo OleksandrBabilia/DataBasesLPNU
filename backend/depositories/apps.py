@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class DepositoryConfig(AppConfig):
+class DepositoriesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'depository'
+    name = 'depositories'

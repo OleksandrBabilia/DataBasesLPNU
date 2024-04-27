@@ -25,7 +25,17 @@ from django.conf import settings
 from authors.admin import AuthorAdmin 
 from authors.models import Author 
 
-admin.site.register(Author, AuthorAdmin)
+from publishers.models import Publisher
+
+from books.models import Book
+
+from depositories.models import Depository
+from depositories.admin import DepositoryAdmin
+
+admin.site.register(Author)
+admin.site.register(Book)
+admin.site.register(Publisher)
+admin.site.register(Depository, DepositoryAdmin)
 
 schema_view = get_schema_view(
     openapi.Info(
