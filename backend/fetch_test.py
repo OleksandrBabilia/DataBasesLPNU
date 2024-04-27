@@ -1,5 +1,8 @@
 import requests
 import random
+import pprint
+import json
+
 from faker import Faker  # Import Faker library for generating fake data
 from datetime import datetime, timedelta
 
@@ -45,6 +48,8 @@ def fetch_random_books(num_books=2000):
             print("Failed to fetch books:", response.status_code)
             break
 
+    all_books_data = []
+
     for i, book in enumerate(books[:num_books], start=1):
         title = book['volumeInfo']['title']
         authors_info = book['volumeInfo'].get('authors', ['Unknown'])
@@ -63,19 +68,43 @@ def fetch_random_books(num_books=2000):
         publisher_address = generate_random_address()
         publisher_phone = generate_random_phone_number()
 
-        print(f"{i}. {title}")
-        print(f"   Authors: {authors}")
-        for author, birthdate, nationality in zip(authors_info, authors_birthdates, authors_nationalities):
-            print(f"      - {author}: Birthdate: {birthdate}, Nationality: {nationality}")
-        print(f"   Publisher: {publisher}")
-        print(f"      - Address: {publisher_address}")
-        print(f"      - Phone: {publisher_phone}")
-        print(f"   Published Date: {published_date}")
-        print(f"   ISBN-13: {isbn_13}")
-        print(f"   Page Count: {page_count}")
-        print(f"   Average Rating: {average_rating}")
-        print(f"   Iteration: {iterations}")
-        print()
+        book_data = {
+            "title": title,
+            "authors": [{"name": author, "birthdate": birthdate, "nationality": nationality} for author, birthdate, nationality in zip(authors_info, authors_birthdates, authors_nationalities)],
+            "publisher": {"name": publisher, "address": publisher_address, "phone": publisher_phone},
+            "published_date": published_date,
+            "isbn_13": isbn_13,
+            "page_count": page_count,
+            "average_rating": average_rating,
+            "iteration": iterations
+        }
 
-    return books[:num_books]
+        all_books_data.append(book_data)
 
+    return all_books_data
+
+def add_publishers(publisher):
+    response = requests.post('http://127.0.0.1:8000/api/v1/publishers/', publisher)
+    print(f"{response.status_code} | {response.text}")
+
+def add_authors(authors):
+    for author in authors: 
+        name = author['name'].split()
+        if len(name) < 2:
+            name.append("")
+        body = {
+            "first_name": name[0],
+            "last_name": name[1],
+            "birthdate": author["birthdate"],
+            "nationality": author["nationality"]
+        }
+        response = requests.post('http://127.0.0.1:8000/api/v1/authors/', body)
+        print(f"{response.status_code} | {response.text}")
+
+# Example usage:
+books_data = fetch_random_books(num_books=10000)
+
+
+for book in books_data:
+    add_authors(book['authors'])
+# TODO: Add Books, before that make get to authors and publishers to get the ids of them, gl XD
