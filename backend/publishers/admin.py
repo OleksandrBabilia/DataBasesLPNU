@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+
+class PublisherAdmin(admin.ModelAdmin):
+    list_display = ["name", "adress", "phone"] 
+    list_select_related = ["book_title"]
+

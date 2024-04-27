@@ -14,7 +14,9 @@ subject_suffix = 'subjects/fiction.json'
 
 books = get_books(subject_suffix)
 
-print(len(books['works']))
+pprint.pprint(books)
+
+# print(len(books['works']))
 
 for book in books['works']:
     print(book['title'])

@@ -22,6 +22,11 @@ from drf_yasg import openapi
 from rest_framework import permissions
 from django.conf import settings
 
+from authors.admin import AuthorAdmin 
+from authors.models import Author 
+
+admin.site.register(Author, AuthorAdmin)
+
 schema_view = get_schema_view(
     openapi.Info(
         title="Episyche Technologies",
@@ -29,6 +34,10 @@ schema_view = get_schema_view(
     public=True,
     permission_classes=(permissions.AllowAny,),
 )
+
+admin.site.site_title = "Book Depository Admin"
+admin.site.site_header = "Book Depository Administration"
+admin.site.index_title = "Site Admin"
 
 urlpatterns = [
     path('admin/', admin.site.urls),

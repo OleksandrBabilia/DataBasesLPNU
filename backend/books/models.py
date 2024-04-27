@@ -8,8 +8,8 @@ class Book(models.Model):
     isbn = models.CharField(max_length=13)
     publication_date = models.DateField()
     price = models.FloatField()
-    author_id = models.ManyToManyField(Author)
-    publisher_id = models.ForeignKey(Publisher, on_delete=models.DO_NOTHING)
+    author = models.ManyToManyField(Author)
+    publisher= models.ForeignKey(Publisher, on_delete=models.DO_NOTHING)
     cover = models.ImageField()
     about = models.TextField()
 
