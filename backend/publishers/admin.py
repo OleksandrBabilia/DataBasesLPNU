@@ -1,7 +1,7 @@
-from django.contrib import admin
+from import_export.admin import ImportExportActionModelAdmin
 
 
-class PublisherAdmin(admin.ModelAdmin):
+class PublisherAdmin(ImportExportActionModelAdmin):
     list_display = ["name", "address", "phone"] 
     # list_select_related = ["book_title"]
 

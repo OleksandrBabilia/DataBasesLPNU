@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Depository, BookDepository
+from .models import BookDepository
+from import_export.admin import ImportExportActionModelAdmin
 
 
 class BookDepositoryInline(admin.TabularInline):
@@ -7,6 +8,6 @@ class BookDepositoryInline(admin.TabularInline):
     extra = 0
 
 
-class DepositoryAdmin(admin.ModelAdmin):
+class DepositoryAdmin(ImportExportActionModelAdmin):
     inlines = [BookDepositoryInline]
 
