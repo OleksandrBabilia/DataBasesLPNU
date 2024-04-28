@@ -101,10 +101,33 @@ def add_authors(authors):
         response = requests.post('http://127.0.0.1:8000/api/v1/authors/', body)
         print(f"{response.status_code} | {response.text}")
 
+def add_books():
+    authors_json = dict() 
+    publishers_json = dict() 
+
+    response = requests.get('http://127.0.0.1:8000/api/v1/authors/')
+    response_json = response.json()
+
+    for author in response_json:
+        authors_json[author["id"]] = f"{author['first_name']} {author['last_name']}"
+
+    response = requests.get('http://127.0.0.1:8000/api/v1/publishers/')
+    response_json = response.json()
+
+    for publisher in response_json:
+        publishers_json[publisher["id"]] = publisher["name"] 
+
+    pprint.pprint(publishers_json)
+
+
 # Example usage:
-books_data = fetch_random_books(num_books=10000)
+# books_data = fetch_random_books(num_books=10000)
 
 
-for book in books_data:
-    add_authors(book['authors'])
+# for book in books_data:
+#     add_authors(book['authors'])
 # TODO: Add Books, before that make get to authors and publishers to get the ids of them, gl XD
+
+
+
+
