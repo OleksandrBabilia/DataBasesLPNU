@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_tools_stats',  # this must be BEFORE 'admin_tools' and 'django.contrib.admin'
+    'django_nvd3',    
     'admin_interface',
     'colorfield',
     'django.contrib.admin',
