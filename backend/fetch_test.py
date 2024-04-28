@@ -72,11 +72,10 @@ def fetch_random_books(num_books=2000):
             "title": title,
             "authors": [{"name": author, "birthdate": birthdate, "nationality": nationality} for author, birthdate, nationality in zip(authors_info, authors_birthdates, authors_nationalities)],
             "publisher": {"name": publisher, "address": publisher_address, "phone": publisher_phone},
-            "published_date": published_date,
-            "isbn_13": isbn_13,
+            "publication_date": published_date,
+            "isbn": isbn_13,
             "page_count": page_count,
-            "average_rating": average_rating,
-            "iteration": iterations
+            "rating": average_rating,
         }
 
         all_books_data.append(book_data)
@@ -129,5 +128,8 @@ def add_books():
 # TODO: Add Books, before that make get to authors and publishers to get the ids of them, gl XD
 
 
+books = fetch_random_books()
+
+pprint.pprint(books)
 
 
