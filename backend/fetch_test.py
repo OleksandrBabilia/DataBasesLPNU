@@ -8,6 +8,21 @@ from datetime import datetime, timedelta
 
 fake = Faker()
 
+UNKNOWN_AUTHOR_ID = 132
+UNKNOWN_PUBLISHER_ID = 74 
+
+def transform_date(date_str):
+    try:
+        # Parse the date string into a datetime object
+        date_obj = datetime.fromisoformat(date_str)
+
+        # Format the datetime object into "YYYY-MM-DD" format
+        formatted_date = date_obj.strftime("%Y-%m-%d")
+        return formatted_date
+    except:
+        return ""
+
+
 def generate_random_birthdate():
     start_date = datetime(1900, 1, 1)
     end_date = datetime.now() - timedelta(days=365*18)  # Assuming authors are at least 18 years old
@@ -55,16 +70,15 @@ def fetch_random_books(num_books=2000):
         authors_info = book['volumeInfo'].get('authors', ['Unknown'])
         authors = ", ".join(authors_info)
         publisher = book['volumeInfo'].get('publisher', 'Unknown Publisher')
-        published_date = book['volumeInfo'].get('publishedDate', 'Unknown')
+        published_date = transform_date(book['volumeInfo'].get('publishedDate', '1000-01-01'))
         isbn_13 = next((identifier['identifier'] for identifier in book['volumeInfo'].get('industryIdentifiers', []) if identifier['type'] == 'ISBN_13'), 'Unknown')
-        page_count = book['volumeInfo'].get('pageCount', 'Unknown')
-        average_rating = book['volumeInfo'].get('averageRating', 'Unknown')
+        page_count = book['volumeInfo'].get('pageCount', 0)
+        average_rating = book['volumeInfo'].get('averageRating', 0)
         
         # Generate random birthdate and nationality for each author
         authors_birthdates = [generate_random_birthdate() for _ in authors_info]
         authors_nationalities = [generate_random_nationality() for _ in authors_info]
         
-        # Generate random address and phone number for publisher
         publisher_address = generate_random_address()
         publisher_phone = generate_random_phone_number()
 
@@ -76,6 +90,7 @@ def fetch_random_books(num_books=2000):
             "isbn": isbn_13,
             "page_count": page_count,
             "rating": average_rating,
+            "price": random.randint(4, 50)
         }
 
         all_books_data.append(book_data)
@@ -108,15 +123,31 @@ def add_books():
     response_json = response.json()
 
     for author in response_json:
-        authors_json[author["id"]] = f"{author['first_name']} {author['last_name']}"
+        authors_json[f"{author['first_name']} {author['last_name']}"] = author["id"]  
 
     response = requests.get('http://127.0.0.1:8000/api/v1/publishers/')
     response_json = response.json()
 
     for publisher in response_json:
-        publishers_json[publisher["id"]] = publisher["name"] 
+        publishers_json[publisher["name"]] = publisher["id"] 
+    
 
-    pprint.pprint(publishers_json)
+    books = fetch_random_books(50000)
+    for book_payload in books:
+
+        book_payload['publisher'] = publishers_json.get(book_payload['publisher']['name'], UNKNOWN_PUBLISHER_ID)
+
+        name = book_payload["authors"][0]["name"].split() 
+        if len(name) < 2:
+            name.append("")
+        authors_list = []
+        authors_list.append(authors_json.get(f"{name[0]} {name[1]}", UNKNOWN_AUTHOR_ID))
+        book_payload['author'] = authors_list 
+        pprint.pprint(book_payload)
+        
+        response = requests.post('http://127.0.0.1:8000/api/v1/books/', book_payload)
+        print(f"{response.status_code} | {response.text}")
+
 
 
 # Example usage:
@@ -126,10 +157,14 @@ def add_books():
 # for book in books_data:
 #     add_authors(book['authors'])
 # TODO: Add Books, before that make get to authors and publishers to get the ids of them, gl XD
+# books = fetch_random_books(50000)
+# for book in books:
+#     add_publishers(book['publisher'])
+#     add_authors(book['authors'])
 
+add_books()
+# add_books()
 
-books = fetch_random_books()
-
-pprint.pprint(books)
+# pprint.pprint(books)
 
 
