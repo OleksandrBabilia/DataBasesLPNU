@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'authors',
     'publishers',
     'depositories',
-    "import_export",
+    'import_export',
+    'logentry_admin',
 ]
 
 X_FRAME_OPTIONS = "SAMEORIGIN"              # allows you to use modals insated of popups
