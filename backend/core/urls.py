@@ -32,9 +32,9 @@ from publishers.models import Publisher
 from publishers.admin import PublisherAdmin
 from publishers.viewsets import PublisherViewSet
 
-from books.models import Book
+from books.models import Book, Ganre
 from books.admin import BookAdmin
-from books.viewsets import BookViewSet
+from books.viewsets import BookViewSet, GanreViewSet
 
 from depositories.models import Depository
 from depositories.admin import DepositoryAdmin
@@ -59,6 +59,7 @@ admin.site.index_title = "Site Admin"
 router = DefaultRouter()
 router.register(r'authors', AuthorViewSet)
 router.register(r'books', BookViewSet)
+router.register(r'ganres', GanreViewSet)
 router.register(r'publishers', PublisherViewSet)
 
 urlpatterns = [
