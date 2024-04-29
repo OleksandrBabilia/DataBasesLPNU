@@ -15,6 +15,10 @@ GANRES_IDS = {
     "fiction": 1,
     "nonfiction": 2,
     "science-fiction": 3, 
+    "mystery": 4,
+    "romance": 5,
+    "history": 6,
+    "biography": 7
 }
 
 def transform_date(date_str):
@@ -56,9 +60,9 @@ def fetch_random_books(num_books, ganre):
         params = {
             "q": f"subject:{ganre}",  # You can adjust the query to fit your needs
             "startIndex": random_index,
-            "maxResults": min(40, num_books - len(books)),  # Limiting to 40 to avoid exceeding API limits
-            # "orderBy": "relevance"  # You can change the order if needed
-            "orderBy": "newest"  # You can change the order if needed
+            "maxResults": min(40, num_books - len(books)),  
+            # "orderBy": "relevance"  
+            "orderBy": "newest"  
         }
         response = requests.get(base_url, params=params)
         iterations += 1
@@ -162,11 +166,14 @@ def set_ganre():
     for id in books_ids:
         response = requests.patch(f"http://127.0.0.1:8000/api/v1/books/{id}/", {"ganres": [1]})
         print(f"{response.status_code} | {response.text}")
-ganre = "science-fiction" 
-books = fetch_random_books(50000, ganre) 
-for book in books:
-    add_publishers(book['publisher'])
-    add_authors(book['authors'])
 
-    add_books(book, ganre)
+ganres = ["mystery", "romance", "history", "biography"]
+
+for ganre in ganres:
+    books = fetch_random_books(2000, ganre) 
+    for book in books:
+        add_publishers(book['publisher'])
+        add_authors(book['authors'])
+
+        add_books(book, ganre)
 
