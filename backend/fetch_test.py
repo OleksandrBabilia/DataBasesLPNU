@@ -11,6 +11,12 @@ fake = Faker()
 UNKNOWN_AUTHOR_ID = 132
 UNKNOWN_PUBLISHER_ID = 74 
 
+GANRES_IDS = {
+    "fiction": 1,
+    "nonfiction": 2,
+    "science-fiction": 3, 
+}
+
 def transform_date(date_str):
     try:
         # Parse the date string into a datetime object
@@ -39,7 +45,7 @@ def generate_random_address():
 def generate_random_phone_number():
     return fake.phone_number()
 
-def fetch_random_books(num_books=2000):
+def fetch_random_books(num_books, ganre):
     base_url = "https://www.googleapis.com/books/v1/volumes"
     books = []
     iterations = 0
@@ -48,9 +54,10 @@ def fetch_random_books(num_books=2000):
         # Generate a random index to get a random page of books
         random_index = str(random.randint(1, 100))
         params = {
-            "q": "subject:fiction",  # You can adjust the query to fit your needs
+            "q": f"subject:{ganre}",  # You can adjust the query to fit your needs
             "startIndex": random_index,
             "maxResults": min(40, num_books - len(books)),  # Limiting to 40 to avoid exceeding API limits
+            # "orderBy": "relevance"  # You can change the order if needed
             "orderBy": "newest"  # You can change the order if needed
         }
         response = requests.get(base_url, params=params)
@@ -115,7 +122,7 @@ def add_authors(authors):
         response = requests.post('http://127.0.0.1:8000/api/v1/authors/', body)
         print(f"{response.status_code} | {response.text}")
 
-def add_books():
+def add_books(book_payload, ganre):
     authors_json = dict() 
     publishers_json = dict() 
 
@@ -130,41 +137,36 @@ def add_books():
 
     for publisher in response_json:
         publishers_json[publisher["name"]] = publisher["id"] 
+
+    book_payload['publisher'] = publishers_json.get(book_payload['publisher']['name'], UNKNOWN_PUBLISHER_ID)
+
+    name = book_payload["authors"][0]["name"].split() 
+    if len(name) < 2:
+        name.append("")
+    authors_list = []
+    authors_list.append(authors_json.get(f"{name[0]} {name[1]}", UNKNOWN_AUTHOR_ID))
+    book_payload['author'] = authors_list 
+    book_payload['ganres'] = [GANRES_IDS[ganre]] 
+    
+    response = requests.post('http://127.0.0.1:8000/api/v1/books/', book_payload)
+    print(f"{response.status_code} | {response.text}")
+
+
+def set_ganre():
+    response = requests.get('http://127.0.0.1:8000/api/v1/books/')
+    books_json = response.json()
+
+    books_ids= [book["id"] for book in books_json] 
     
 
-    books = fetch_random_books(50000)
-    for book_payload in books:
-
-        book_payload['publisher'] = publishers_json.get(book_payload['publisher']['name'], UNKNOWN_PUBLISHER_ID)
-
-        name = book_payload["authors"][0]["name"].split() 
-        if len(name) < 2:
-            name.append("")
-        authors_list = []
-        authors_list.append(authors_json.get(f"{name[0]} {name[1]}", UNKNOWN_AUTHOR_ID))
-        book_payload['author'] = authors_list 
-        pprint.pprint(book_payload)
-        
-        response = requests.post('http://127.0.0.1:8000/api/v1/books/', book_payload)
+    for id in books_ids:
+        response = requests.patch(f"http://127.0.0.1:8000/api/v1/books/{id}/", {"ganres": [1]})
         print(f"{response.status_code} | {response.text}")
+ganre = "science-fiction" 
+books = fetch_random_books(50000, ganre) 
+for book in books:
+    add_publishers(book['publisher'])
+    add_authors(book['authors'])
 
-
-
-# Example usage:
-# books_data = fetch_random_books(num_books=10000)
-
-
-# for book in books_data:
-#     add_authors(book['authors'])
-# TODO: Add Books, before that make get to authors and publishers to get the ids of them, gl XD
-# books = fetch_random_books(50000)
-# for book in books:
-#     add_publishers(book['publisher'])
-#     add_authors(book['authors'])
-
-add_books()
-# add_books()
-
-# pprint.pprint(books)
-
+    add_books(book, ganre)
 
