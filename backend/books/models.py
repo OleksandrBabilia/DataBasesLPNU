@@ -3,6 +3,18 @@ from authors.models import Author
 from publishers.models import Publisher
 
 
+class Ganre(models.Model):
+    name = models.CharField(max_length=25)
+
+    class Meta:
+        verbose_name = "Ganre"
+        verbose_name_plural = "Ganres"
+        ordering = ["-name"]
+
+    def __str__(self):
+        return f"{self.name}" 
+
+
 class Book(models.Model):
     title = models.CharField(max_length=55, db_index=True)
     isbn = models.CharField(max_length=13, unique=True, db_index=True)
@@ -14,6 +26,7 @@ class Book(models.Model):
     about = models.TextField(blank=True, null=True)
     page_count = models.PositiveSmallIntegerField()
     rating = models.FloatField()
+    ganres = models.ManyToManyField(Ganre)
 
     class Meta:
         verbose_name = "Book"
