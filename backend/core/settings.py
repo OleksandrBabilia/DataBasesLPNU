@@ -97,7 +97,23 @@ DATABASES = {
         'PASSWORD': '17082004Da',
         'HOST': 'localhost',
         'PORT': '5432',
-    }
+    },
+    'consultant': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'book_depository',
+        'USER': 'consultant',
+        'PASSWORD': '1234567',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    },
+    'manager': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'book_depository',
+        'USER': 'manager',
+        'PASSWORD': '1234567',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    },
 }# Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
