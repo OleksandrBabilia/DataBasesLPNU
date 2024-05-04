@@ -2,6 +2,7 @@ from django.db import models
 
 from books.models import Book
 
+
 class Depository(models.Model):
     name = models.CharField(max_length=55, db_index=True)
     location = models.CharField(max_length=125)
@@ -15,7 +16,6 @@ class Depository(models.Model):
 
     def __str__(self):
         return f"{self.name}" 
-
 
 
 class BookDepository(models.Model):

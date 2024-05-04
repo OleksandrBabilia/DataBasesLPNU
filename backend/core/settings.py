@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'authors',
     'publishers',
     'depositories',
+    'events',
     'import_export',
     'logentry_admin',
 ]
@@ -94,7 +95,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'book_depository',
         'USER': 'postgres',
-        'PASSWORD': '1234569',
+        'PASSWORD': '17082004Da',
         'HOST': 'localhost',
         'PORT': '5432',
     },

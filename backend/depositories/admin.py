@@ -1,6 +1,9 @@
 from django.contrib import admin
+
 from .models import BookDepository, Depository
+from events.models import EventDepository
 from import_export.admin import ImportExportActionModelAdmin
+from events.admin import EventBookInline 
 
 
 class BookDepositoryInline(admin.TabularInline):
@@ -8,8 +11,14 @@ class BookDepositoryInline(admin.TabularInline):
     extra = 0
 
 
+class EventDepositorytInline(admin.TabularInline):
+    model = EventDepository 
+    extra = 0
+
+
 class DepositoryAdmin(ImportExportActionModelAdmin):
-    inlines = [BookDepositoryInline]
+    inlines = [BookDepositoryInline, EventDepositorytInline]
+    list_display = ["name", "location", "capacity", "current_capacity",]
 
     def get_queryset(self, request):
         user = request.user

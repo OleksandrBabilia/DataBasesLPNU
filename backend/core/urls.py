@@ -39,10 +39,14 @@ from books.viewsets import BookViewSet, GanreViewSet
 from depositories.models import Depository
 from depositories.admin import DepositoryAdmin
 
+from events.models import Event 
+from events.admin import EventAdmin 
+
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Book, BookAdmin)
 admin.site.register(Publisher, PublisherAdmin)
 admin.site.register(Depository, DepositoryAdmin)
+admin.site.register(Event, EventAdmin)
 
 schema_view = get_schema_view(
     openapi.Info(
