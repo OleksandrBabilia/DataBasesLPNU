@@ -17,10 +17,10 @@ class Event(models.Model):
         (TRANSFER_FROM, 'Transfer from Depository'),
     ]
      
-    event_type = models.CharField(max_length=2, choices=EVENT_CHOICES)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    event_type = models.CharField(max_length=2, choices=EVENT_CHOICES, db_index=True)
+    timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
     description = models.TextField(blank=True, null=True)
-    responsible = models.ForeignKey(User, on_delete=models.CASCADE) 
+    responsible = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True) 
     related_depository = models.ForeignKey(Depository, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
