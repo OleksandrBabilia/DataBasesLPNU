@@ -5,9 +5,14 @@ from django.contrib import admin
 from .models import Book 
 
 
-# class BookGanreInline(admin.TabularInline):
-#     model = Ganre 
-#     extra = 0
+class BookManyToManyInline(admin.TabularInline):
+    model = Book.author.through
+    extra = 0
+
+
+class BookInline(admin.TabularInline):
+    model = Book
+    extra = 0
 
 
 class BookAdmin(ImportExportActionModelAdmin):

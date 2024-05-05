@@ -1,11 +1,15 @@
 from import_export.admin import ImportExportActionModelAdmin
 from .models import Author
+from books.admin import BookManyToManyInline 
+
 
 class AuthorAdmin(ImportExportActionModelAdmin):
     list_display = ["first_name", "last_name", "birthdate", "nationality"]
     list_filter = ["first_name", "last_name", "birthdate", "nationality"]
     # list_select_related = ["Book__title"]
-    
+    inlines = [BookManyToManyInline, ] 
+
+
     def get_queryset(self, request):
         user = request.user
         if user.is_superuser: 

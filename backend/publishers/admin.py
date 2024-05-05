@@ -1,11 +1,13 @@
 from import_export.admin import ImportExportActionModelAdmin
 from .models import Publisher
+from books.admin import BookInline
+
 
 class PublisherAdmin(ImportExportActionModelAdmin):
     list_display = ["name", "address", "phone"] 
     list_filter = ["name", "address", "phone"] 
-    # list_select_related = ["book_title"]
-    
+    inlines = [BookInline, ]
+
     def get_queryset(self, request):
         user = request.user
         if user.is_superuser: 
