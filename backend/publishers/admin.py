@@ -7,6 +7,7 @@ class PublisherAdmin(ImportExportActionModelAdmin):
     list_display = ["name", "address", "phone"] 
     list_filter = ["name", "address", "phone"] 
     inlines = [BookInline, ]
+    search_fields = ["name", ]
 
     def get_queryset(self, request):
         user = request.user

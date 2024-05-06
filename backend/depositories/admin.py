@@ -18,7 +18,7 @@ class EventDepositorytInline(admin.TabularInline):
 
 class DepositoryAdmin(ImportExportActionModelAdmin):
     inlines = [BookDepositoryInline, EventDepositorytInline]
-    list_display = ["name", "location", "books_quantity", ]
+    list_display = ["name", "location", ]
 
     def get_queryset(self, request):
         user = request.user

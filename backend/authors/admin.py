@@ -8,6 +8,7 @@ class AuthorAdmin(ImportExportActionModelAdmin):
     list_filter = ["first_name", "last_name", "birthdate", "nationality"]
     # list_select_related = ["Book__title"]
     inlines = [BookManyToManyInline, ] 
+    search_fields = ["first_name", "last_name"]
 
 
     def get_queryset(self, request):

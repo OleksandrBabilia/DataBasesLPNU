@@ -20,6 +20,7 @@ class BookAdmin(ImportExportActionModelAdmin):
     # list_select_related = ["author__first_name", "author__last_name", "publisher__name"]
     list_filter = ["title", "isbn", "publication_date", "price",]
     # inlines = [BookGanreInline]
+    search_fields = ["title",]
 
     def image_tag(self, obj):
         return format_html('<img src="{}" style="max-width:200px; max-height:80px"/>'.format(obj.cover.url))

@@ -6,7 +6,6 @@ from books.models import Book
 class Depository(models.Model):
     name = models.CharField(max_length=55, db_index=True)
     location = models.CharField(max_length=125)
-    books_quantity = models.PositiveIntegerField()
     
     class Meta:
         verbose_name = "Depository"
