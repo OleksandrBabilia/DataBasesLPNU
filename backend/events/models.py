@@ -13,8 +13,8 @@ class Event(models.Model):
     EVENT_CHOICES = [
         (DEPARTURE, 'Departure'),
         (ARRIVAL, 'Arrival'),
-        (TRANSFER_TO, 'Transfer to Depository'),
-        (TRANSFER_FROM, 'Transfer from Depository'),
+        (TRANSFER_TO, 'Transfer from this to Another'),
+        (TRANSFER_FROM, 'Transfer to this From Anothet'),
     ]
      
     event_type = models.CharField(max_length=2, choices=EVENT_CHOICES, db_index=True)
