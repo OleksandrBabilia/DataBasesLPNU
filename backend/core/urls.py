@@ -38,9 +38,13 @@ from books.viewsets import BookViewSet, GanreViewSet
 
 from depositories.models import Depository
 from depositories.admin import DepositoryAdmin
+from depositories.viewsets import DepositoryViewSet
 
 from events.models import Event 
 from events.admin import EventAdmin 
+from events.viewsets import EventViewSet 
+
+from users.viewsets import UserViewSet 
 
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Book, BookAdmin)
@@ -63,8 +67,12 @@ admin.site.index_title = "Site Admin"
 router = DefaultRouter()
 router.register(r'authors', AuthorViewSet)
 router.register(r'books', BookViewSet)
+router.register(r'events', EventViewSet)
 router.register(r'ganres', GanreViewSet)
 router.register(r'publishers', PublisherViewSet)
+router.register(r'depositories', DepositoryViewSet)
+router.register(r'users', UserViewSet)
+
 
 urlpatterns = [
     path('api/v1/', include(router.urls)), 
