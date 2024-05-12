@@ -16,6 +16,7 @@ class EventAdmin(ImportExportActionModelAdmin):
     list_display = ["event_type", "responsible", "timestamp", "id", "related_depository"]
     list_filter = ["event_type", "responsible", "timestamp", "related_depository"] 
     inlines = [EventBookInline]
+    search_fields = ["event_type",]
     
     def get_queryset(self, request):
         user = request.user
