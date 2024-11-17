@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
+from datetime import timedelta
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -41,7 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework_swagger',       
+    'rest_framework_swagger',
+    'rest_framework_simplejwt',
+    'corsheaders',
+
     'rest_framework',               
     'drf_yasg',
     'books',
@@ -53,12 +58,15 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'logentry_admin',
     'users',
+    'rentals',
+    'payments',
 ]
 
 X_FRAME_OPTIONS = "SAMEORIGIN"              # allows you to use modals insated of popups
 SILENCED_SYSTEM_CHECKS = ["security.W019"]  # ignores redundant warning messages
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -165,3 +173,23 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+}
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+RABBITMQ_HOST = 'localhost'  # or your RabbitMQ server IP
+RABBITMQ_QUEUE = 'stripe_payments'

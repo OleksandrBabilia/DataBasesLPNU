@@ -1,0 +1,27 @@
+/* LoginPage.css */
+body {
+    background-color: #f4f6f9; /* Light background color for a fresh look */
+}
+
+.login-container {
+    height: 100vh; /* Full viewport height */
+}
+
+.card {
+    background-color: #ffffff; /* White background for the card */
+    border-radius: 15px; /* Rounded corners for the card */
+}
+
+h2 {
+    color: #007bff; /* Blue color for the header */
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}

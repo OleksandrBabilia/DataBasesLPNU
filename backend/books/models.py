@@ -27,6 +27,7 @@ class Book(models.Model):
     page_count = models.PositiveSmallIntegerField()
     rating = models.FloatField()
     ganres = models.ManyToManyField(Ganre)
+    rented = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Book"
@@ -34,5 +35,5 @@ class Book(models.Model):
         ordering = ["-title"]
 
     def __str__(self):
-        return f"{self.title}" 
+        return f"{self.title}"
 

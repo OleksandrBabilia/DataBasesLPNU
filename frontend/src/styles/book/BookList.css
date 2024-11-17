@@ -1,0 +1,8 @@
+/* src/pages/BookList.css */
+
+.scrollable-container {
+    max-height: 300px; /* Set the height for the scrollable box */
+    overflow-y: auto;  /* Enable vertical scrolling */
+    padding-right: 10px; /* To avoid text cutoff due to scrollbar */
+}
+

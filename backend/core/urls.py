@@ -40,17 +40,29 @@ from depositories.models import Depository
 from depositories.admin import DepositoryAdmin
 from depositories.viewsets import DepositoryViewSet
 
-from events.models import Event 
+from rentals.models import Rental
+from rentals.admin import RentalAdmin
+
+from events.models import Event
 from events.admin import EventAdmin 
 from events.viewsets import EventViewSet 
 
-from users.viewsets import UserViewSet 
+from users.viewsets import UserViewSet, UserSignupViewSet
+
+from payments.models import Payment
+from payments.admin import PaymentAdmin
+from payments.viewsets import PaymentViewSet
 
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Book, BookAdmin)
 admin.site.register(Publisher, PublisherAdmin)
 admin.site.register(Depository, DepositoryAdmin)
 admin.site.register(Event, EventAdmin)
+admin.site.register(Rental, RentalAdmin)
+admin.site.register(Payment, PaymentAdmin)
+
+
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -72,13 +84,16 @@ router.register(r'ganres', GanreViewSet)
 router.register(r'publishers', PublisherViewSet)
 router.register(r'depositories', DepositoryViewSet)
 router.register(r'users', UserViewSet)
-
+router.register(r'payments', PaymentViewSet)
+router.register(r'signup', UserSignupViewSet, basename='signup')
 
 urlpatterns = [
     path('api/v1/', include(router.urls)), 
     path('admin/', admin.site.urls),
     path('admin_tools_stats/', include('admin_tools_stats.urls')),  
     path('__debug__/', include('debug_toolbar.urls')), 
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0),name='schema-swagger-ui')
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0),name='schema-swagger-ui'),
+    path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

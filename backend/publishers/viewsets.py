@@ -7,5 +7,5 @@ from .serializers import PublisherSerializer
 class PublisherViewSet(viewsets.ModelViewSet):
     queryset = Publisher.objects.all()
     serializer_class = PublisherSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
